@@ -1,0 +1,61 @@
+html {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+hr {
+  width: 25%;
+  margin: 1em auto;
+  opacity: 0.25;
+}
+
+main {
+  position: absolute;
+  inset: 25%;
+  text-align: center;
+
+  .form-container {
+    // width: 35%;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1em;
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.5em;
+    }
+  }
+
+  .result {
+    margin: 0;
+
+    p {
+      font-size: x-large;
+      font-weight: bold;
+      
+      #time {
+        font-size: 1.25em;
+      }
+
+      #madeAmt {
+        display: block;
+        font-size: 2em;
+      }
+    }
+
+    .stats {
+
+      p {
+        font-size: 0.85em;
+        font-weight: normal;
+      }
+    }
+  }
+}

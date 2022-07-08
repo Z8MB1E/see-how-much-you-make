@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>See How Much You're Making</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <link rel="stylesheet" href="dist/styles.css" />
+  </head>
+
+  <body>
+    <main>
+      <h1>See How Much You're Making</h1>
+      <hr />
+      <div class="form-container">
+        <div class="form-group">
+          <label for="hourlyWage">What is your hourly wage?</label>
+          <input type="number" name="hourlyWage" id="hourlyWage" value="8.30" />
+        </div>
+        <div class="form-group">
+          <label for="startTime">When did you start working today?</label>
+          <input type="time" name="startTime" id="startTime" value="09:00" />
+        </div>
+        <div class="form-group">
+          <button id="calculate">Calculate</button>
+        </div>
+      </div>
+      <hr />
+      <div class="result">
+        <p>
+          Since <span id="time">00:00 AM</span>, you've made
+          <span id="madeAmt">$0.00</span>
+          <div class="stats">
+            <p>Raw earnings: <span id="raw">$0.00</span></p>
+            <p>
+              From Monday until now, if you worked 9 AM to 5 PM, you will have
+              made: <span id="weekAmt">$0.00</span>
+            </p>
+            <p>Per second: <span id="perSecond">$0.00</span></p>
+          </div>
+        </p>
+      </div>
+    </main>
+  </body>
+
+  <script>
+    let startTime = document.getElementById("startTime");
+    hourlyWage = document.getElementById("hourlyWage");
+    madeAmt = document.getElementById("madeAmt");
+    raw = document.getElementById("raw");
+    weekAmt = document.getElementById("weekAmt");
+    perSecond = document.getElementById("perSecond");
+
+    let shouldCalculate = false;
+
+    document.getElementById("calculate").onclick = (e) => {
+      shouldCalculate = !shouldCalculate;
+      if (shouldCalculate) {
+        document.getElementById("calculate").innerHTML = "Stop Calculating";
+      } else {
+        document.getElementById("calculate").innerHTML = "Calculate";
+      }
+    };
+
+    setInterval(() => {
+      if (shouldCalculate) {
+        // main calculation
+        let diff = moment().diff(moment(startTime.value, "hh:mm a"), "seconds");
+        let diffRaw = moment().diff(moment(startTime.value, "hh:mm a"));
+        let calculated = (
+          (Math.abs(diff) / 60 / 60) *
+          hourlyWage.value
+        ).toLocaleString("en-US", {
+          style: "currency",
+          currency: "USD",
+          minimumFractionDigits: 2,
+        });
+        let calculatedRaw = (
+          (Math.abs(diffRaw) / 1000 / 60 / 60) *
+          hourlyWage.value
+        ).toLocaleString("en-US", {
+          style: "currency",
+          currency: "USD",
+          minimumFractionDigits: 4,
+        });
+        madeAmt.innerText = calculated;
+        raw.innerText = calculatedRaw;
+
+        // calculate how much money was made this week if working from 9 am to 5 pm
+        let weekDiff = moment().diff(
+          moment(startTime.value, "hh:mm a").add(-1, "days"),
+          "seconds"
+        );
+        let weekCalculated = (
+          (Math.abs(weekDiff) / 60 / 60) *
+          hourlyWage.value
+        ).toLocaleString("en-US", {
+          style: "currency",
+          currency: "USD",
+          minimumFractionDigits: 2,
+        });
+        weekAmt.innerText = `~${weekCalculated}`;
+
+        // calculate how much money is being made per second
+        let perSecondCalculated = (hourlyWage.value / 60 / 60).toLocaleString(
+          "en-US",
+          {
+            style: "currency",
+            currency: "USD",
+            minimumFractionDigits: 4,
+          }
+        );
+        perSecond.innerText = `${perSecondCalculated}`;
+      }
+    }, 50);
+  </script>
+</html>
