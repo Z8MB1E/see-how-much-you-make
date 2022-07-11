@@ -22,6 +22,10 @@
           <label for="startTime">When did you start working today?</label>
           <input type="time" name="startTime" id="startTime" value="09:00" />
         </div>
+        <div class="form-group" style="width: 20%;">
+          <label for="breakHours">How many hours have you taken a break?</label>
+          <input type="number" name="breakHours" id="breakHours" value="1" />
+        </div>
         <div class="form-group">
           <button id="calculate">Calculate</button>
         </div>
@@ -46,11 +50,12 @@
 
   <script>
     let startTime = document.getElementById("startTime");
-    hourlyWage = document.getElementById("hourlyWage");
-    madeAmt = document.getElementById("madeAmt");
-    raw = document.getElementById("raw");
-    weekAmt = document.getElementById("weekAmt");
-    perSecond = document.getElementById("perSecond");
+    let hourlyWage = document.getElementById("hourlyWage");
+    let breakHours = document.getElementById("breakHours");
+    let madeAmt = document.getElementById("madeAmt");
+    let raw = document.getElementById("raw");
+    let weekAmt = document.getElementById("weekAmt");
+    let perSecond = document.getElementById("perSecond");
 
     let shouldCalculate = false;
 
@@ -61,6 +66,8 @@
       } else {
         document.getElementById("calculate").innerHTML = "Calculate";
       }
+
+      time.innerText = moment(startTime.value, "HH:mm").format("h:mm A");
     };
 
     setInterval(() => {
@@ -69,7 +76,7 @@
         let diff = moment().diff(moment(startTime.value, "hh:mm a"), "seconds");
         let diffRaw = moment().diff(moment(startTime.value, "hh:mm a"));
         let calculated = (
-          (Math.abs(diff) / 60 / 60) *
+          ((Math.abs(diff) / 60 / 60) - breakHours.value) *
           hourlyWage.value
         ).toLocaleString("en-US", {
           style: "currency",
