@@ -37,10 +37,10 @@
           <span id="madeAmt">$0.00</span>
           <div class="stats">
             <p>Raw earnings: <span id="raw">$0.00</span></p>
-            <p>
+            <!-- <p>
               From Monday until now, if you worked 9 AM to 5 PM, you will have
               made: <span id="weekAmt">$0.00</span>
-            </p>
+            </p> -->
             <p>Per second: <span id="perSecond">$0.00</span></p>
           </div>
         </p>
@@ -95,6 +95,7 @@
         raw.innerText = calculatedRaw;
 
         // calculate how much money was made this week if working from 9 am to 5 pm
+        // TODO: This is not accurate at all. Definitely needs to be fixed.
         let weekDiff = moment().diff(
           moment(startTime.value, "hh:mm a").add(-1, "days"),
           "seconds"
