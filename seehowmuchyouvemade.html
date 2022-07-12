@@ -96,7 +96,7 @@
 
         // calculate how much money was made this week if working from 9 am to 5 pm
         // TODO: This is not accurate at all. Definitely needs to be fixed.
-        let weekDiff = moment().diff(
+        /* let weekDiff = moment().diff(
           moment(startTime.value, "hh:mm a").add(-1, "days"),
           "seconds"
         );
@@ -108,7 +108,7 @@
           currency: "USD",
           minimumFractionDigits: 2,
         });
-        weekAmt.innerText = `~${weekCalculated}`;
+        weekAmt.innerText = `~${weekCalculated}`; */
 
         // calculate how much money is being made per second
         let perSecondCalculated = (hourlyWage.value / 60 / 60).toLocaleString(
